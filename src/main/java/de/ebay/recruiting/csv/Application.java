@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.stream.Stream;
 
 
@@ -37,12 +38,12 @@ public class Application {
             }
 
             //read file into stream, try-with-resources
-            ArrayList<AddressBook> adList = new ArrayList<>();
+            HashMap<String, AddressBook> adMap = new HashMap<>();
             try (Stream<String> stream = Files.lines(Paths.get(dataDirectory + adBookFileName))) {
                 stream.forEach((line) -> {
                     String[] tokens = line.split(", ");
                     AddressBook addressBook = new AddressBook(tokens[0], tokens[1], tokens[2], tokens[3]);
-                    adList.add(addressBook);
+                    adMap.put(addressBook.getId(), addressBook);
                 });
             } catch (IOException e) {
                 e.printStackTrace();
@@ -59,10 +60,32 @@ public class Application {
                 e.printStackTrace();
             }
 
+            new Application().solveProblem(adMap, libList);
+
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void solveProblem(HashMap<String, AddressBook> adMap, ArrayList<LibraryData> libList) {
+
+        ProblemSolver.getNumberOfFemales(adMap);
+        ProblemSolver.getOldestPerson(adMap);
+        ProblemSolver.getNumberOfBooksRentByPerson(adMap, libList);
+        ProblemSolver.getBooksNotRented(libList);
+
+        AddressBook Jon = new AddressBook();
+        AddressBook Paul = new AddressBook();
+
+        for (AddressBook person: adMap.values()) {
+            if (person.getName().equals("Jon"))
+                Jon = person;
+            else if (person.getName().equals("Paul"))
+                Paul = person;
+        }
+        ProblemSolver.getDaysOlder(Jon, Paul);
 
     }
 }

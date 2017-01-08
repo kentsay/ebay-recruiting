@@ -8,6 +8,9 @@ public class AddressBook {
     public String gender;
     public String birthday;
 
+    public AddressBook() {
+    }
+
     public AddressBook(String id, String name, String gender, String birthday) {
         this.id = id;
         this.name = name;

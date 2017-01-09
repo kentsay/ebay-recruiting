@@ -10,19 +10,16 @@ import java.util.HashMap;
 
 public class ProblemSolver {
 
-    public static void getNumberOfFemales(HashMap<String, AddressBook> adMap) {
+    public int getNumberOfFemales(HashMap<String, AddressBook> adMap) {
         int numberOfFemales = 0;
         for (AddressBook person: adMap.values()) {
             if (person.getGender().equals("Female"))
                 numberOfFemales++;
         }
-        System.out.println("How many females are in the address book? ");
-        System.out.println(numberOfFemales);
-        System.out.println("------------------------------");
+        return numberOfFemales;
     }
 
-    public static void getOldestPerson(HashMap<String, AddressBook> adMap) {
-
+    public ArrayList<AddressBook> getOldestPerson(HashMap<String, AddressBook> adMap) {
         ArrayList<AddressBook> oldestPerson = new ArrayList<>();
         for (AddressBook person: adMap.values()) {
             if (oldestPerson.isEmpty()) {
@@ -41,16 +38,10 @@ public class ProblemSolver {
                 }
             }
         }
-        System.out.println("Who is the oldest person in the address book?");
-        oldestPerson.forEach((person) ->  {
-            System.out.println(person.getName() + ", ");
-        });
-        System.out.println("------------------------------");
-
+        return oldestPerson;
     }
 
-    public static void getNumberOfBooksRentByPerson(HashMap<String, AddressBook> adMap, ArrayList<LibraryData> libList) {
-
+    public HashMap<String, Integer> getNumberOfBooksRentByPerson(HashMap<String, AddressBook> adMap, ArrayList<LibraryData> libList) {
         HashMap<String, Integer> bookRentMap = new HashMap<>();
         for(LibraryData data: libList) {
             String id = data.getRenterId();
@@ -58,40 +49,61 @@ public class ProblemSolver {
                 if (bookRentMap.containsKey(id)) {
                     bookRentMap.put(id, bookRentMap.get(id)+1);
                 } else {
-                    bookRentMap.put(data.getRenterId(), 1);
+                    bookRentMap.put(id, 1);
+                }
+            } else continue;
+        }
+        return bookRentMap;
+    }
+
+    public String getBooksRentByPerson(HashMap<String, AddressBook> adMap, ArrayList<LibraryData> libList) {
+        HashMap<String, ArrayList<String>> bookRentMap = new HashMap<>();
+
+        for(LibraryData data: libList) {
+            String id = data.getRenterId();
+            if (!id.equals("NULL")) {
+                if (bookRentMap.containsKey(id)) {
+                    ArrayList<String> rentedBookList = bookRentMap.get(id);
+                    rentedBookList.add(data.getBookName());
+                    bookRentMap.put(id, rentedBookList);
+                } else {
+                    ArrayList<String> rentedBookList = new ArrayList<>();
+                    rentedBookList.add(data.getBookName());
+                    bookRentMap.put(id, rentedBookList);
                 }
             } else continue;
         }
 
-        System.out.println("Who has rented how many books?");
+        StringBuilder sb = new StringBuilder();
+        sb.append(
+                "<html>" +
+                    "<body>" +
+                        "<table>" +
+                        "<tr>" +
+                            "<th>Name</th>" +
+                            "<th>Borrowed Books</th>" +
+                        "</tr>");
+
         bookRentMap.forEach((k,v) -> {
-            System.out.println(adMap.get(k).getName() + " has rented " + v + " books");
+            sb.append("<tr><td>" + adMap.get(k).getName() + "</td><td>" + v + "</td></tr>");
         });
-        System.out.println("------------------------------");
+        sb.append("</table></body></html>");
+        return sb.toString();
     }
 
-    public static void getBooksNotRented(ArrayList<LibraryData> libData) {
+    public ArrayList<String> getBooksNotRented(ArrayList<LibraryData> libData) {
         ArrayList<String> bookNotRent = new ArrayList<>();
         for (LibraryData data: libData) {
             if (data.getRenterId().equals("NULL")) {
                 bookNotRent.add(data.getBookName());
             }
         }
-
-        System.out.println("Which books have not been rented?");
-        bookNotRent.forEach((book) -> {
-            System.out.print(book + ", ");
-        });
-        System.out.println();
-        System.out.println("------------------------------");
-
+        return bookNotRent;
     }
 
-    public static void getDaysOlder(AddressBook person1, AddressBook person2) {
+    public long getDaysOlder(AddressBook person1, AddressBook person2) {
         long days = DateUtil.getDifferenceInDays(person1.getBirthday(), person2.getBirthday());
-        System.out.println("How many days older is Jon than Paul?");
-        System.out.println(days);
-        System.out.println("------------------------------");
+        return days;
     }
 
 }

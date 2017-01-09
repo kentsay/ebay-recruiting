@@ -30,7 +30,6 @@ public class CsvUtil {
             System.out.println("File not found: " + e.getMessage());
         } catch (IOException e) {
             System.out.println("General I/O exception: " + e.getMessage());
-            e.printStackTrace();
         }
 
         return adMap;
@@ -46,8 +45,10 @@ public class CsvUtil {
                 LibraryData libData = new LibraryData(tokens[0], tokens[1]);
                 libList.add(libData);
             });
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("General I/O exception: " + e.getMessage());
         }
 
         return libList;

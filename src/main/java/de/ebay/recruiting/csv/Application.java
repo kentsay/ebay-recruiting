@@ -145,7 +145,7 @@ public class Application {
             System.out.println("* Which person has borrowed which book?");
             System.out.println(ps.getBooksRentByPersonHTML(adMap, libList));
         } else {
-            System.out.println("Error! Please make sure your input data has content.");
+            System.out.println("Error! Please make sure your input data exist and has content.");
         }
     }
 }

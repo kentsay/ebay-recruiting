@@ -10,6 +10,14 @@ import java.util.HashMap;
 
 public class ProblemSolver {
 
+    public boolean dataValidation(HashMap<String, AddressBook> adMap, ArrayList<LibraryData> libList) {
+        boolean checkResult = true;
+        if (adMap.size() == 0 || libList.size() == 0) {
+            checkResult = false;
+        }
+        return checkResult;
+    }
+
     public int getNumberOfFemales(HashMap<String, AddressBook> adMap) {
         int numberOfFemales = 0;
         for (AddressBook person: adMap.values()) {
@@ -41,7 +49,7 @@ public class ProblemSolver {
         return oldestPerson;
     }
 
-    public HashMap<String, Integer> getNumberOfBooksRentByPerson(HashMap<String, AddressBook> adMap, ArrayList<LibraryData> libList) {
+    public HashMap<String, Integer> getNumberOfBooksRentByPerson(ArrayList<LibraryData> libList) {
         HashMap<String, Integer> bookRentMap = new HashMap<>();
         for(LibraryData data: libList) {
             String id = data.getRenterId();
@@ -56,7 +64,7 @@ public class ProblemSolver {
         return bookRentMap;
     }
 
-    public String getBooksRentByPerson(HashMap<String, AddressBook> adMap, ArrayList<LibraryData> libList) {
+    public String getBooksRentByPersonHTML(HashMap<String, AddressBook> adMap, ArrayList<LibraryData> libList) {
         HashMap<String, ArrayList<String>> bookRentMap = new HashMap<>();
 
         for(LibraryData data: libList) {

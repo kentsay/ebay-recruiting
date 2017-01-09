@@ -99,49 +99,53 @@ public class Application {
 
         ProblemSolver ps = new ProblemSolver();
 
-        System.out.println("* How many females are in the address book? ");
-        System.out.println(ps.getNumberOfFemales(adMap));
-        System.out.println("------------------------------");
+        if (ps.dataValidation(adMap, libList)) {
+            System.out.println("* How many females are in the address book? ");
+            System.out.println(ps.getNumberOfFemales(adMap));
+            System.out.println("------------------------------");
 
-        System.out.println("* Who is the oldest person in the address book?");
-        ArrayList<AddressBook> oldestPerson = ps.getOldestPerson(adMap);
-        oldestPerson.forEach((person) ->  {
-            System.out.print(person.getName() + ", ");
-        });
-        System.out.println();
-        System.out.println("------------------------------");
+            System.out.println("* Who is the oldest person in the address book?");
+            ArrayList<AddressBook> oldestPerson = ps.getOldestPerson(adMap);
+            oldestPerson.forEach((person) ->  {
+                System.out.print(person.getName() + ", ");
+            });
+            System.out.println();
+            System.out.println("------------------------------");
 
-        System.out.println("* Who has rented how many books?");
-        HashMap<String, Integer> bookRentMap = ps.getNumberOfBooksRentByPerson(adMap, libList);
-        bookRentMap.forEach((k,v) -> {
-            System.out.println(adMap.get(k).getName() + ": " + v);
-        });
-        System.out.println("------------------------------");
+            System.out.println("* Who has rented how many books?");
+            HashMap<String, Integer> bookRentMap = ps.getNumberOfBooksRentByPerson(libList);
+            bookRentMap.forEach((k,v) -> {
+                System.out.println(adMap.get(k).getName() + ": " + v);
+            });
+            System.out.println("------------------------------");
 
-        System.out.println("* Which books have not been rented?");
-        ArrayList<String> bookNotRent = ps.getBooksNotRented(libList);
-        bookNotRent.forEach((book) -> {
-            System.out.print(book + ", ");
-        });
-        System.out.println();
-        System.out.println("------------------------------");
+            System.out.println("* Which books have not been rented?");
+            ArrayList<String> bookNotRent = ps.getBooksNotRented(libList);
+            bookNotRent.forEach((book) -> {
+                System.out.print(book + ", ");
+            });
+            System.out.println();
+            System.out.println("------------------------------");
 
-        AddressBook Jon = new AddressBook();
-        AddressBook Paul = new AddressBook();
+            AddressBook Jon = new AddressBook();
+            AddressBook Paul = new AddressBook();
 
-        for (AddressBook person: adMap.values()) {
-            if (person.getName().equals("Jon"))
-                Jon = person;
-            else if (person.getName().equals("Paul"))
-                Paul = person;
+            for (AddressBook person: adMap.values()) {
+                if (person.getName().equals("Jon"))
+                    Jon = person;
+                else if (person.getName().equals("Paul"))
+                    Paul = person;
+            }
+
+            System.out.println("* How many days older is Jon than Paul?");
+            System.out.println(ps.getDaysOlder(Jon, Paul));
+            System.out.println("------------------------------");
+
+
+            System.out.println("* Which person has borrowed which book?");
+            System.out.println(ps.getBooksRentByPersonHTML(adMap, libList));
+        } else {
+            System.out.println("Error! Please make sure your input data has content.");
         }
-
-        System.out.println("* How many days older is Jon than Paul?");
-        System.out.println(ps.getDaysOlder(Jon, Paul));
-        System.out.println("------------------------------");
-
-
-        System.out.println("* Which person has borrowed which book?");
-        System.out.println(ps.getBooksRentByPerson(adMap, libList));
     }
 }
